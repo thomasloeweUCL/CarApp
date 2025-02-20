@@ -114,9 +114,29 @@ namespace CarApp
                         break;
 
                     case "2":
+                        if (teamCars.Count == 0)
+                        {
+                            Console.WriteLine("Fejl: Ingen biler tilføjet. Tilføj en bil først.");
+                            break;
+                        }
+
+                        Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
+                        int selectedCarIndexForDrive = int.Parse(Console.ReadLine()); // Brugeren vælger bil
+
+                        if (selectedCarIndexForDrive < 0 || selectedCarIndexForDrive >= teamCars.Count)
+                        {
+                            Console.WriteLine("Ugyldigt bilnummer.");
+                            break;
+                        }
+
+                        Car selectedCarForDrive = teamCars[selectedCarIndexForDrive]; // Vælg den bil, der er valgt af brugeren
+
                         Console.Write("Indtast distance i km: ");
-                        double distance = double.Parse(Console.ReadLine());
-                        myCar.Drive(distance);
+                        double distanceToDrive = double.Parse(Console.ReadLine());
+
+                        // Opdater bilens odometer
+                        selectedCarForDrive.Drive(distanceToDrive);
+
                         break;
 
                     case "3":
@@ -199,7 +219,25 @@ namespace CarApp
                         break;
 
                     case "8":
-                        myCar.ToggleEngine();
+                        if (teamCars.Count == 0)
+                        {
+                            Console.WriteLine("Fejl: Ingen biler tilføjet. Tilføj en bil først.");
+                            break;
+                        }
+
+                        Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
+                        int selectedCarIndexForEngineToggle = int.Parse(Console.ReadLine()); // Brugeren vælger bil
+
+                        if (selectedCarIndexForEngineToggle < 0 || selectedCarIndexForEngineToggle >= teamCars.Count)
+                        {
+                            Console.WriteLine("Ugyldigt bilnummer.");
+                            break;
+                        }
+
+                        Car selectedCarForEngineToggle = teamCars[selectedCarIndexForEngineToggle]; // Vælg den bil, der er valgt af brugeren
+
+                        // Tænd eller sluk motoren på den valgte bil
+                        selectedCarForEngineToggle.ToggleEngine();
                         break;
 
                     default:
