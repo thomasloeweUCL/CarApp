@@ -27,3 +27,4 @@ C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarAp
 C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\obj\Debug\net8.0\CarApp.pdb
 C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\obj\Debug\net8.0\CarApp.genruntimeconfig.cache
 C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\obj\Debug\net8.0\ref\CarApp.dll
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\obj\Debug\net8.0\CarApp.sourcelink.json

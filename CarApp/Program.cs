@@ -109,7 +109,8 @@ namespace CarApp
                         Car newCar = new Car(); // Opret en ny bil
                         newCar.ReadCarDetails();
                         teamCars.Add(newCar); // Tilføj den nye bil til listen
-                        Console.WriteLine("Bilen er tilføjet til teamet!");
+                        int carIndex = teamCars.Count - 1; // Hent bilens index i listen
+                        Console.WriteLine($"Bilen er tilføjet! Bilens nummer: {carIndex}");
                         break;
 
                     case "2":
@@ -126,15 +127,15 @@ namespace CarApp
                         }
 
                         Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int carIndex = int.Parse(Console.ReadLine());
+                        int carIndexForTrip = int.Parse(Console.ReadLine()); // Ændret variabelnavn her
 
-                        if (carIndex < 0 || carIndex >= teamCars.Count)
+                        if (carIndexForTrip < 0 || carIndexForTrip >= teamCars.Count)
                         {
                             Console.WriteLine("Ugyldigt bilnummer.");
                             break;
                         }
 
-                        Car tripCarIndex = teamCars[carIndex]; // Vælg bilen fra listen
+                        Car tripCar = teamCars[carIndexForTrip]; // Brug den nye variabel her
 
                         Console.Write("Indtast distance i km: ");
                         double tripDistance = double.Parse(Console.ReadLine());
@@ -142,7 +143,7 @@ namespace CarApp
                         Console.Write("Indtast literpris: ");
                         double literPrice = double.Parse(Console.ReadLine());
 
-                        double price = tripCarIndex.CalculateTripPrice(tripDistance, literPrice);
+                        double price = tripCar.CalculateTripPrice(tripDistance, literPrice);
 
                         if (price > 0)
                             Console.WriteLine($"Turen koster: {price:F2} kr.");
@@ -156,7 +157,7 @@ namespace CarApp
                         }
 
                         Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int selectedCarIndexForPalindrome = int.Parse(Console.ReadLine());
+                        int selectedCarIndexForPalindrome = int.Parse(Console.ReadLine()); // Ændret variabelnavn her
 
                         if (selectedCarIndexForPalindrome < 0 || selectedCarIndexForPalindrome >= teamCars.Count)
                         {
@@ -164,7 +165,7 @@ namespace CarApp
                             break;
                         }
 
-                        Car selectedCarForPalindrome = teamCars[selectedCarIndexForPalindrome]; // Vælg bilen fra listen
+                        Car selectedCarForPalindrome = teamCars[selectedCarIndexForPalindrome]; // Brug den nye variabel her
                         Console.WriteLine(selectedCarForPalindrome.IsPalindrome() ? "Odometer er et palindrom!" : "Odometer er ikke et palindrom.");
                         break;
 
@@ -176,16 +177,16 @@ namespace CarApp
                         }
 
                         Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int selectedCarIndex = int.Parse(Console.ReadLine());
+                        int selectedCarIndexForPrint = int.Parse(Console.ReadLine()); // Ændret variabelnavn her
 
-                        if (selectedCarIndex < 0 || selectedCarIndex >= teamCars.Count)
+                        if (selectedCarIndexForPrint < 0 || selectedCarIndexForPrint >= teamCars.Count)
                         {
                             Console.WriteLine("Ugyldigt bilnummer.");
                             break;
                         }
 
-                        Car selectedCar = teamCars[selectedCarIndex]; // Vælg bilen fra listen
-                        selectedCar.PrintCarDetails();
+                        Car selectedCarForPrint = teamCars[selectedCarIndexForPrint]; // Brug den nye variabel her
+                        selectedCarForPrint.PrintCarDetails();
                         break;
 
                     case "6":
