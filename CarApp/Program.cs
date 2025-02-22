@@ -1,10 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// Namespace bruges til at organisere og gruppere relaterede klasser, så navnekonflikter undgås, og koden bliver mere struktureret.
 namespace CarApp
 {
+    // Class er en skabelon, som bruges til at oprette objekter.
+    // Konsolapplikationen er opdelt i class Car og class Program.
+    // class Car håndterer alt, der relaterer sig til bilen og dens funktioner.
+    // class Program håndterer alt, der relaterer sig til brugergrænsefladen.
     class Car
     {
+        // Herunder deklareres en række variabler.
+        // get; angiver, at værdien kan læses (hentes) af andre klasser (den er public).
+        // private set; angiver, at værdien kun kan ændres inden for den samme klasse (private betyder, at andre klasser ikke kan ændre værdien direkte).
+        // private angiver, at variablen kun kan tilgås inden for samme klasse.
         public string Brand { get; private set; }
         public string Model { get; private set; }
         public int Year { get; private set; }
@@ -12,7 +21,7 @@ namespace CarApp
         public double KmPerLiter { get; private set; }
         private bool isEngineOn;
 
-        // Metode til at indlæse bilens oplysninger
+        // Metode til at indtaste bilens oplysninger
         public void ReadCarDetails()
         {
             Console.Write("Indtast mærke: ");
@@ -28,6 +37,10 @@ namespace CarApp
         }
 
         // Metode til at simulere en køretur
+        // metoden tager et parameter som input: double distance
+        // if (isEngineOn) tjekker om bilens motor er tændt eller slukket. Bilen kan kun køre, hvis motoren er tændt.
+        // Problem: Hvis brugeren skriver en negativ værdi, trækkes denne fra odometer.
+        // Potentielt fix: Indfør if-sætning (betingelse), der tjekker om værdien er mindre end 0.
         public void Drive(double distance)
         {
             if (isEngineOn)
@@ -42,9 +55,12 @@ namespace CarApp
         }
 
         // Beregner prisen for en tur
+        // metoden tager to parametre som input: double distance og double literPrice
+        // if-sætningen returnerer en fejlmeddelelse og 0-værdi, hvis KmPerLiter <= 0.
+        // metoden beregner prisen og returnerer dette beløb
         public double CalculateTripPrice(double distance, double literPrice)
         {
-            if (KmPerLiter == 0)
+            if (KmPerLiter <= 0)
             {
                 Console.WriteLine("Fejl: KmPerLiter er 0. Udfør korrektion.");
                 return 0;
@@ -55,15 +71,15 @@ namespace CarApp
         // Tjekker om odometerstanden er et palindrom
         public bool IsPalindrome()
         {
-            string kmStr = Odometer.ToString();
-            int len = kmStr.Length;
+            string kmStr = Odometer.ToString(); // Konverterer Odometer (som er et double-tal) til en string
+            int len = kmStr.Length; // Bestemmer længden af kmStr
 
-            for (int i = 0; i < len / 2; i++)
+            for (int i = 0; i < len / 2; i++) // for-løkke, itererer fra første tegn i strengen (i = 0) op til midten af strengen (len / 2). Sammenligner tegnene fra starten og slutningen af strengen.
             {
-                if (kmStr[i] != kmStr[len - 1 - i])
+                if (kmStr[i] != kmStr[len - 1 - i]) // tegnet på nuværende position i sammenlignes med tegnet på den spejlvendte position (len - 1- i). Hvis de ikke er ens, returneres false og metoden afsluttes.
                     return false;
             }
-            return true;
+            return true; // hvis løkken kører uden at finde uoverensstemmelser, returneres true. 
         }
 
         // Udskriver bilens oplysninger
@@ -147,7 +163,7 @@ namespace CarApp
                         }
 
                         Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int carIndexForTrip = int.Parse(Console.ReadLine()); // Ændret variabelnavn her
+                        int carIndexForTrip = int.Parse(Console.ReadLine());
 
                         if (carIndexForTrip < 0 || carIndexForTrip >= teamCars.Count)
                         {
@@ -155,7 +171,7 @@ namespace CarApp
                             break;
                         }
 
-                        Car tripCar = teamCars[carIndexForTrip]; // Brug den nye variabel her
+                        Car tripCar = teamCars[carIndexForTrip];
 
                         Console.Write("Indtast distance i km: ");
                         double tripDistance = double.Parse(Console.ReadLine());
@@ -177,7 +193,7 @@ namespace CarApp
                         }
 
                         Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int selectedCarIndexForPalindrome = int.Parse(Console.ReadLine()); // Ændret variabelnavn her
+                        int selectedCarIndexForPalindrome = int.Parse(Console.ReadLine());
 
                         if (selectedCarIndexForPalindrome < 0 || selectedCarIndexForPalindrome >= teamCars.Count)
                         {
@@ -185,7 +201,7 @@ namespace CarApp
                             break;
                         }
 
-                        Car selectedCarForPalindrome = teamCars[selectedCarIndexForPalindrome]; // Brug den nye variabel her
+                        Car selectedCarForPalindrome = teamCars[selectedCarIndexForPalindrome];
                         Console.WriteLine(selectedCarForPalindrome.IsPalindrome() ? "Odometer er et palindrom!" : "Odometer er ikke et palindrom.");
                         break;
 
@@ -197,7 +213,7 @@ namespace CarApp
                         }
 
                         Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int selectedCarIndexForPrint = int.Parse(Console.ReadLine()); // Ændret variabelnavn her
+                        int selectedCarIndexForPrint = int.Parse(Console.ReadLine());
 
                         if (selectedCarIndexForPrint < 0 || selectedCarIndexForPrint >= teamCars.Count)
                         {
@@ -205,7 +221,7 @@ namespace CarApp
                             break;
                         }
 
-                        Car selectedCarForPrint = teamCars[selectedCarIndexForPrint]; // Brug den nye variabel her
+                        Car selectedCarForPrint = teamCars[selectedCarIndexForPrint];
                         selectedCarForPrint.PrintCarDetails();
                         break;
 
