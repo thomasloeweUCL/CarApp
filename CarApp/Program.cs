@@ -21,19 +21,20 @@ namespace CarApp
         public double KmPerLiter { get; private set; }
         private bool isEngineOn;
 
-        // Metode til at indtaste bilens oplysninger
-        public void ReadCarDetails()
+        // Konstruktør til Car-klassen
+        public Car(string brand, string model, int year, double odometer, double kmPerLiter)
         {
-            Console.Write("Indtast mærke: ");
-            Brand = Console.ReadLine();
-            Console.Write("Indtast model: ");
-            Model = Console.ReadLine();
-            Console.Write("Indtast årgang: ");
-            Year = int.Parse(Console.ReadLine());
-            Console.Write("Indtast km-tilstand: ");
-            Odometer = double.Parse(Console.ReadLine());
-            Console.Write("Indtast km per liter: ");
-            KmPerLiter = double.Parse(Console.ReadLine());
+            Brand = brand;
+            Model = model;
+            Year = year;
+            Odometer = odometer;
+            KmPerLiter = kmPerLiter;
+            isEngineOn = false; // Motor starter som slukket
+        }
+
+        private void UpdateOdometer(double distance)
+        {
+            Odometer += distance;
         }
 
         // Metode til at simulere en køretur
@@ -45,7 +46,7 @@ namespace CarApp
         {
             if (isEngineOn)
             {
-                Odometer += distance;
+                UpdateOdometer(distance);
                 Console.WriteLine($"Bilen har kørt {distance} km. Ny odometer: {Odometer}");
             }
             else
@@ -100,15 +101,39 @@ namespace CarApp
     {
         static List<Car> teamCars = new List<Car>();
 
+        static void AddNewCar()
+        {
+            Console.Write("Indtast mærke: ");
+            string brand = Console.ReadLine();
+
+            Console.Write("Indtast model: ");
+            string model = Console.ReadLine();
+
+            Console.Write("Indtast årgang: ");
+            int year = int.Parse(Console.ReadLine());
+
+            Console.Write("Indtast kilometerstand: ");
+            double odometer = double.Parse(Console.ReadLine());
+
+            Console.Write("Indtast km/l: ");
+            double kmPerLiter = double.Parse(Console.ReadLine());
+
+            // **Bruger konstruktøren til at oprette objektet**
+            Car newCar = new Car(brand, model, year, odometer, kmPerLiter);
+            teamCars.Add(newCar);
+
+            int carIndex = teamCars.Count - 1;
+            Console.WriteLine($"Bilen er tilføjet! Bilens nummer: {carIndex}");
+        }
+
         static void Main()
         {
-            Car myCar = new Car();
             bool running = true;
 
             while (running)
             {
                 Console.WriteLine("\nVælg en handling:\n");
-                Console.WriteLine("1. Read Car Details");
+                Console.WriteLine("1. Tilføj ny bil");
                 Console.WriteLine("2. Drive");
                 Console.WriteLine("3. Calculate Trip Price");
                 Console.WriteLine("4. IsPalindrome");
@@ -122,11 +147,7 @@ namespace CarApp
                 switch (choice)
                 {
                     case "1":
-                        Car newCar = new Car(); // Opret en ny bil
-                        newCar.ReadCarDetails();
-                        teamCars.Add(newCar); // Tilføj den nye bil til listen
-                        int carIndex = teamCars.Count - 1; // Hent bilens index i listen
-                        Console.WriteLine($"Bilen er tilføjet! Bilens nummer: {carIndex}");
+                        AddNewCar();
                         break;
 
                     case "2":
