@@ -1,35 +1,94 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// Namespace bruges til at organisere og gruppere relaterede klasser, så navnekonflikter undgås, og koden bliver mere struktureret.
 namespace CarApp
 {
-    // Class er en skabelon, som bruges til at oprette objekter.
-    // Konsolapplikationen er opdelt i class Car og class Program.
-    // class Car håndterer alt, der relaterer sig til bilen og dens funktioner.
-    // class Program håndterer alt, der relaterer sig til brugergrænsefladen.
+    // Enum til brændstoftype – giver faste værdier og gør det nemt at bruge i koden
+    public enum FuelType
+    {
+        Benzin,
+        Diesel,
+        Elektrisk,
+        Hybrid
+    }
+
+    // Trip-klassen repræsenterer en køretur
+    class Trip
+    {
+        public double Distance { get; private set; } // Turens længde i km
+        public DateTime TripDate { get; private set; } // Dato for turen
+        public DateTime StartTime { get; private set; } // Starttidspunkt
+        public DateTime EndTime { get; private set; } // Sluttidspunkt
+        public double LiterPrice { get; private set; } // Literpris for brændstof
+
+        public Trip(double distance, DateTime tripDate, DateTime startTime, DateTime endTime, double literPrice)
+        {
+            if (distance < 0) throw new ArgumentException("Distance kan ikke være negativ.");
+            if (endTime < startTime) throw new ArgumentException("Sluttid må ikke være før starttid.");
+            if (literPrice < 0) throw new ArgumentException("Literpris kan ikke være negativ.");
+
+            Distance = distance;
+            TripDate = tripDate;
+            StartTime = startTime;
+            EndTime = endTime;
+            LiterPrice = literPrice;
+        }
+
+        public TimeSpan CalculateDuration()
+        {
+            return EndTime - StartTime;
+        }
+
+        public double CalculateFuelUsed(double kmPerLiter)
+        {
+            if (kmPerLiter <= 0)
+                throw new ArgumentException("KmPerLiter skal være større end 0.");
+            return Distance / kmPerLiter;
+        }
+
+        public double CalculateTripPrice(double kmPerLiter)
+        {
+            return CalculateFuelUsed(kmPerLiter) * LiterPrice;
+        }
+
+        public void PrintTripDetails(double kmPerLiter)
+        {
+            Console.WriteLine("\n--- Turdetaljer ---");
+            Console.WriteLine($"Dato: {TripDate:dd-MM-yyyy}");
+            Console.WriteLine($"Starttid: {StartTime}");
+            Console.WriteLine($"Sluttid: {EndTime}");
+            Console.WriteLine($"Varighed: {CalculateDuration()}");
+            Console.WriteLine($"Distance: {Distance} km");
+            Console.WriteLine($"Brændstofforbrug: {CalculateFuelUsed(kmPerLiter):F2} liter");
+            Console.WriteLine($"Literpris: {LiterPrice:F2} kr");
+            Console.WriteLine($"Pris: {CalculateTripPrice(kmPerLiter):F2} kr\n");
+        }
+    }
+
+    // Car-klassen repræsenterer en bil og indeholder dens køreture
     class Car
     {
-        // Herunder deklareres en række variabler.
-        // get; angiver, at værdien kan læses (hentes) af andre klasser (den er public).
-        // private set; angiver, at værdien kun kan ændres inden for den samme klasse (private betyder, at andre klasser ikke kan ændre værdien direkte).
-        // private angiver, at variablen kun kan tilgås inden for samme klasse.
-        public string Brand { get; private set; }
-        public string Model { get; private set; }
-        public int Year { get; private set; }
-        public double Odometer { get; private set; }
-        public double KmPerLiter { get; private set; }
-        private bool isEngineOn;
+        public string Brand { get; private set; } // Bilens mærke
+        public string Model { get; private set; } // Bilens model
+        public int Year { get; private set; } // Bilens årgang
+        public FuelType Fuel { get; private set; } // Bilens brændstoftype
+        public double Odometer { get; private set; } // Kilometerstand
+        public double KmPerLiter { get; private set; } // Brændstofeffektivitet (km pr. liter)
+        public List<Trip> Trips { get; private set; } // Liste over alle registrerede ture
+        private bool isEngineOn; // Angiver om motoren er tændt eller slukket
 
-        // Konstruktør til Car-klassen
-        public Car(string brand, string model, int year, double odometer, double kmPerLiter)
+        // Konstruktør
+
+        public Car(string brand, string model, int year, FuelType fuel, double odometer, double kmPerLiter)
         {
             Brand = brand;
             Model = model;
             Year = year;
+            Fuel = fuel;
             Odometer = odometer;
             KmPerLiter = kmPerLiter;
-            isEngineOn = false; // Motor starter som slukket
+            isEngineOn = false;
+            Trips = new List<Trip>();
         }
 
         private void UpdateOdometer(double distance)
@@ -37,13 +96,14 @@ namespace CarApp
             Odometer += distance;
         }
 
-        // Metode til at simulere en køretur
-        // metoden tager et parameter som input: double distance
-        // if (isEngineOn) tjekker om bilens motor er tændt eller slukket. Bilen kan kun køre, hvis motoren er tændt.
-        // Problem: Hvis brugeren skriver en negativ værdi, trækkes denne fra odometer.
-        // Potentielt fix: Indfør if-sætning (betingelse), der tjekker om værdien er mindre end 0.
         public void Drive(double distance)
         {
+            if (distance < 0)
+            {
+                Console.WriteLine("Fejl: Du kan ikke køre en negativ distance.");
+                return;
+            }
+
             if (isEngineOn)
             {
                 UpdateOdometer(distance);
@@ -55,45 +115,36 @@ namespace CarApp
             }
         }
 
-        // Beregner prisen for en tur
-        // metoden tager to parametre som input: double distance og double literPrice
-        // if-sætningen returnerer en fejlmeddelelse og 0-værdi, hvis KmPerLiter <= 0.
-        // metoden beregner prisen og returnerer dette beløb
-        public double CalculateTripPrice(double distance, double literPrice)
-        {
-            if (KmPerLiter <= 0)
-            {
-                Console.WriteLine("Fejl: KmPerLiter er 0. Udfør korrektion.");
-                return 0;
-            }
-            return (distance / KmPerLiter) * literPrice;
-        }
-
-        // Tjekker om odometerstanden er et palindrom
         public bool IsPalindrome()
         {
-            string kmStr = Odometer.ToString(); // Konverterer Odometer (som er et double-tal) til en string
-            int len = kmStr.Length; // Bestemmer længden af kmStr
-
-            for (int i = 0; i < len / 2; i++) // for-løkke, itererer fra første tegn i strengen (i = 0) op til midten af strengen (len / 2). Sammenligner tegnene fra starten og slutningen af strengen.
+            string odometerAsString = Odometer.ToString("F0");
+            int length = odometerAsString.Length;
+            for (int i = 0; i < length / 2; i++)
             {
-                if (kmStr[i] != kmStr[len - 1 - i]) // tegnet på nuværende position i sammenlignes med tegnet på den spejlvendte position (len - 1- i). Hvis de ikke er ens, returneres false og metoden afsluttes.
+                if (odometerAsString[i] != odometerAsString[length - 1 - i])
                     return false;
             }
-            return true; // hvis løkken kører uden at finde uoverensstemmelser, returneres true. 
+            return true;
         }
 
-        // Udskriver bilens oplysninger
         public void PrintCarDetails()
         {
-            Console.WriteLine($"\nBil detaljer:\nMærke: {Brand}\nModel: {Model}\nÅrgang: {Year}\nOdometer: {Odometer} km\nKm/l: {KmPerLiter}\n");
+            Console.WriteLine($"\nBil detaljer:\nMærke: {Brand}\nModel: {Model}\nÅrgang: {Year}\nBrændstoftype: {Fuel}\nOdometer: {Odometer} km\nKm/l: {KmPerLiter}\n");
         }
 
-        // Skifter motorens tilstand
         public void ToggleEngine()
         {
             isEngineOn = !isEngineOn;
             Console.WriteLine(isEngineOn ? "Motoren er nu tændt." : "Motoren er nu slukket.");
+        }
+
+        public void AddTrip(Trip trip)
+        {
+            if (trip != null)
+            {
+                Trips.Add(trip);
+                Odometer += trip.Distance;
+            }
         }
     }
 
@@ -109,47 +160,79 @@ namespace CarApp
             Console.Write("Indtast model: ");
             string model = Console.ReadLine();
 
-            Console.Write("Indtast årgang: ");
-            int year = int.Parse(Console.ReadLine());
+            int year;
+            while (true)
+            {
+                Console.Write("Indtast årgang: ");
+                if (int.TryParse(Console.ReadLine(), out year)) break;
+                Console.WriteLine("Ugyldig årgang. Prøv igen.");
+            }
 
-            Console.Write("Indtast kilometerstand: ");
-            double odometer = double.Parse(Console.ReadLine());
+            // Vis brændstoftyper dynamisk
+            FuelType[] fuelTypes = (FuelType[])Enum.GetValues(typeof(FuelType));
+            int fuelChoice;
 
-            Console.Write("Indtast km/l: ");
-            double kmPerLiter = double.Parse(Console.ReadLine());
+            while (true)
+            {
+                Console.WriteLine("Vælg brændstoftype:");
+                for (int i = 0; i < fuelTypes.Length; i++)
+                {
+                    Console.WriteLine($"{i}: {fuelTypes[i]}");
+                }
 
-            // **Bruger konstruktøren til at oprette objektet**
-            Car newCar = new Car(brand, model, year, odometer, kmPerLiter);
+                Console.Write("Indtast nummer for brændstoftype: ");
+                if (int.TryParse(Console.ReadLine(), out fuelChoice) && fuelChoice >= 0 && fuelChoice < fuelTypes.Length)
+                    break;
+
+                Console.WriteLine("Ugyldigt valg. Prøv igen.");
+            }
+
+            FuelType fuel = fuelTypes[fuelChoice];
+
+            double odometer;
+            while (true)
+            {
+                Console.Write("Indtast kilometerstand: ");
+                if (double.TryParse(Console.ReadLine(), out odometer)) break;
+                Console.WriteLine("Ugyldig kilometerstand. Prøv igen.");
+            }
+
+            double kmPerLiter;
+            while (true)
+            {
+                Console.Write("Indtast km/l: ");
+                if (double.TryParse(Console.ReadLine(), out kmPerLiter)) break;
+                Console.WriteLine("Ugyldig km/l-værdi. Prøv igen.");
+            }
+
+            Car newCar = new Car(brand, model, year, fuel, odometer, kmPerLiter);
             teamCars.Add(newCar);
-
-            int carIndex = teamCars.Count - 1;
-            Console.WriteLine($"Bilen er tilføjet! Bilens nummer: {carIndex}");
+            Console.WriteLine($"Bilen er tilføjet! Bilens nummer: {teamCars.Count - 1}");
         }
+
 
         static void Main()
         {
             bool running = true;
-
             while (running)
             {
-                Console.WriteLine("\nVælg en handling:\n");
+                Console.WriteLine("\nVælg en handling:");
                 Console.WriteLine("1. Tilføj ny bil");
-                Console.WriteLine("2. Drive");
-                Console.WriteLine("3. Calculate Trip Price");
-                Console.WriteLine("4. IsPalindrome");
-                Console.WriteLine("5. Print Car Details");
-                Console.WriteLine("6. Print All Team Cars");
+                Console.WriteLine("2. Registrér køretur");
+                Console.WriteLine("3. Beregn turpris");
+                Console.WriteLine("4. Tjek om Odometer er palindrom");
+                Console.WriteLine("5. Vis bilens detaljer");
+                Console.WriteLine("6. Vis alle biler");
                 Console.WriteLine("7. Afslut programmet");
-                Console.WriteLine("8. Tænd/sluk motoren\n");
+                Console.WriteLine("8. Tænd/sluk motoren");
+                Console.WriteLine("9. Vis alle ture for en bil");
 
                 string choice = Console.ReadLine();
-
                 switch (choice)
                 {
                     case "1":
                         AddNewCar();
                         break;
-
                     case "2":
                         if (teamCars.Count == 0)
                         {
@@ -157,146 +240,104 @@ namespace CarApp
                             break;
                         }
 
-                        Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int selectedCarIndexForDrive = int.Parse(Console.ReadLine()); // Brugeren vælger bil
+                        Console.Write("Bilnummer: ");
+                        int selectedCarIndexForTripRegistration = int.Parse(Console.ReadLine());
 
-                        if (selectedCarIndexForDrive < 0 || selectedCarIndexForDrive >= teamCars.Count)
+                        if (selectedCarIndexForTripRegistration < 0 || selectedCarIndexForTripRegistration >= teamCars.Count)
                         {
                             Console.WriteLine("Ugyldigt bilnummer.");
                             break;
                         }
 
-                        Car selectedCarForDrive = teamCars[selectedCarIndexForDrive]; // Vælg den bil, der er valgt af brugeren
+                        Car selectedCarForTripRegistration = teamCars[selectedCarIndexForTripRegistration];
 
-                        Console.Write("Indtast distance i km: ");
-                        double distanceToDrive = double.Parse(Console.ReadLine());
+                        Console.Write("Distance i km: ");
+                        double tripDistance = double.Parse(Console.ReadLine());
 
-                        // Opdater bilens odometer
-                        selectedCarForDrive.Drive(distanceToDrive);
+                        Console.Write("Dato (dd-MM-yyyy): ");
+                        DateTime tripDate = DateTime.ParseExact(Console.ReadLine(), "dd-MM-yyyy", null);
 
+                        Console.Write("Starttid (fx 08:00): ");
+                        DateTime tripStartTime = DateTime.Parse($"{tripDate:dd-MM-yyyy} {Console.ReadLine()}");
+
+                        Console.Write("Sluttid (fx 09:30): ");
+                        DateTime tripEndTime = DateTime.Parse($"{tripDate:dd-MM-yyyy} {Console.ReadLine()}");
+
+                        Console.Write("Indtast literpris (kr): ");
+                        double tripLiterPrice = double.Parse(Console.ReadLine());
+
+                        Trip trip = new Trip(tripDistance, tripDate, tripStartTime, tripEndTime, tripLiterPrice);
+                        selectedCarForTripRegistration.AddTrip(trip);
+                        trip.PrintTripDetails(selectedCarForTripRegistration.KmPerLiter);
                         break;
 
                     case "3":
-                        if (teamCars.Count == 0)
-                        {
-                            Console.WriteLine("Fejl: Ingen biler tilføjet. Tilføj en bil først.");
-                            break;
-                        }
-
-                        Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int carIndexForTrip = int.Parse(Console.ReadLine());
-
-                        if (carIndexForTrip < 0 || carIndexForTrip >= teamCars.Count)
-                        {
-                            Console.WriteLine("Ugyldigt bilnummer.");
-                            break;
-                        }
-
-                        Car tripCar = teamCars[carIndexForTrip];
-
-                        Console.Write("Indtast distance i km: ");
-                        double tripDistance = double.Parse(Console.ReadLine());
-
-                        Console.Write("Indtast literpris: ");
-                        double literPrice = double.Parse(Console.ReadLine());
-
-                        double price = tripCar.CalculateTripPrice(tripDistance, literPrice);
-
-                        if (price > 0)
-                            Console.WriteLine($"Turen koster: {price:F2} kr.");
+                        Console.Write("Bilnummer: ");
+                        int selectedCarIndexForPriceCalculation = int.Parse(Console.ReadLine());
+                        Car selectedCarForPriceCalculation = teamCars[selectedCarIndexForPriceCalculation];
+                        Console.Write("Distance i km: ");
+                        double priceCalculationDistance = double.Parse(Console.ReadLine());
+                        Console.Write("Literpris (kr): ");
+                        double priceCalculationLiterPrice = double.Parse(Console.ReadLine());
+                        double fuelUsed = priceCalculationDistance / selectedCarForPriceCalculation.KmPerLiter;
+                        double price = fuelUsed * priceCalculationLiterPrice;
+                        Console.WriteLine($"Forbrug: {fuelUsed:F2} liter – Pris: {price:F2} kr");
                         break;
 
                     case "4":
-                        if (teamCars.Count == 0)
-                        {
-                            Console.WriteLine("Fejl: Ingen biler tilføjet. Tilføj en bil først.");
-                            break;
-                        }
-
-                        Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int selectedCarIndexForPalindrome = int.Parse(Console.ReadLine());
-
-                        if (selectedCarIndexForPalindrome < 0 || selectedCarIndexForPalindrome >= teamCars.Count)
-                        {
-                            Console.WriteLine("Ugyldigt bilnummer.");
-                            break;
-                        }
-
-                        Car selectedCarForPalindrome = teamCars[selectedCarIndexForPalindrome];
-                        Console.WriteLine(selectedCarForPalindrome.IsPalindrome() ? "Odometer er et palindrom!" : "Odometer er ikke et palindrom.");
+                        Console.Write("Bilnummer: ");
+                        int selectedCarIndexForPalindromeCheck = int.Parse(Console.ReadLine());
+                        Console.WriteLine(teamCars[selectedCarIndexForPalindromeCheck].IsPalindrome() ? "Odometer er et palindrom." : "Ikke et palindrom.");
                         break;
 
                     case "5":
-                        if (teamCars.Count == 0)
-                        {
-                            Console.WriteLine("Fejl: Ingen biler tilføjet. Tilføj en bil først.");
-                            break;
-                        }
-
-                        Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int selectedCarIndexForPrint = int.Parse(Console.ReadLine());
-
-                        if (selectedCarIndexForPrint < 0 || selectedCarIndexForPrint >= teamCars.Count)
-                        {
-                            Console.WriteLine("Ugyldigt bilnummer.");
-                            break;
-                        }
-
-                        Car selectedCarForPrint = teamCars[selectedCarIndexForPrint];
-                        selectedCarForPrint.PrintCarDetails();
+                        Console.Write("Bilnummer: ");
+                        int selectedCarIndexForDetails = int.Parse(Console.ReadLine());
+                        teamCars[selectedCarIndexForDetails].PrintCarDetails();
                         break;
 
                     case "6":
-                        PrintAllTeamCars();
+                        foreach (var carInTeamList in teamCars)
+                            carInTeamList.PrintCarDetails();
                         break;
 
                     case "7":
                         running = false;
-                        Console.WriteLine("Programmet afsluttes...");
                         break;
 
                     case "8":
-                        if (teamCars.Count == 0)
-                        {
-                            Console.WriteLine("Fejl: Ingen biler tilføjet. Tilføj en bil først.");
-                            break;
-                        }
+                        Console.Write("Bilnummer: ");
+                        int selectedCarIndexForEngineToggle = int.Parse(Console.ReadLine());
+                        teamCars[selectedCarIndexForEngineToggle].ToggleEngine();
+                        break;
 
-                        Console.Write("Indtast bilnummer (0 for første bil, 1 for anden osv.): ");
-                        int selectedCarIndexForEngineToggle = int.Parse(Console.ReadLine()); // Brugeren vælger bil
+                    case "9":
+                        Console.Write("Bilnummer: ");
+                        int selectedCarIndexForTripListing = int.Parse(Console.ReadLine());
 
-                        if (selectedCarIndexForEngineToggle < 0 || selectedCarIndexForEngineToggle >= teamCars.Count)
+                        if (selectedCarIndexForTripListing < 0 || selectedCarIndexForTripListing >= teamCars.Count)
                         {
                             Console.WriteLine("Ugyldigt bilnummer.");
                             break;
                         }
 
-                        Car selectedCarForEngineToggle = teamCars[selectedCarIndexForEngineToggle]; // Vælg den bil, der er valgt af brugeren
+                        Car selectedCarForTripListing = teamCars[selectedCarIndexForTripListing];
+                        if (selectedCarForTripListing.Trips.Count == 0)
+                        {
+                            Console.WriteLine("Ingen ture registreret.");
+                            break;
+                        }
 
-                        // Tænd eller sluk motoren på den valgte bil
-                        selectedCarForEngineToggle.ToggleEngine();
+                        foreach (var tripInTripList in selectedCarForTripListing.Trips)
+                        {
+                            tripInTripList.PrintTripDetails(selectedCarForTripListing.KmPerLiter);
+                        }
                         break;
 
                     default:
-                        Console.WriteLine("Ugyldigt valg, prøv igen.");
+                        Console.WriteLine("Ugyldigt valg.");
                         break;
                 }
-            }
-        }
-
-        // Udskriver alle teamets biler
-        static void PrintAllTeamCars()
-        {
-            if (teamCars.Count == 0)
-            {
-                Console.WriteLine("Der er ingen biler i teamet.");
-                return;
-            }
-
-            Console.WriteLine("\nAlle teamets biler:");
-            foreach (var car in teamCars)
-            {
-                car.PrintCarDetails();
             }
         }
     }
