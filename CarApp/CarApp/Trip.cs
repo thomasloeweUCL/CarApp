@@ -17,15 +17,16 @@ namespace CarApp
 
         public Trip(double distance, DateTime tripDate, DateTime startTime, DateTime endTime, double literPrice)
         {
-            if (distance < 0) throw new ArgumentException("Distance kan ikke være negativ.");
-            if (endTime < startTime) throw new ArgumentException("Sluttid må ikke være før starttid.");
-            if (literPrice < 0) throw new ArgumentException("Literpris kan ikke være negativ.");
-
             Distance = distance;
             TripDate = tripDate;
             StartTime = startTime;
             EndTime = endTime;
             LiterPrice = literPrice;
+
+            if (distance < 0) throw new ArgumentException("Distance må ikke være negativ");
+            if (endTime < startTime) throw new ArgumentException("Sluttid må ikke være før starttid.");
+            if (literPrice < 0) throw new ArgumentException("Literpris kan ikke være negativ.");
+
         }
 
         public TimeSpan CalculateDuration()

@@ -3,98 +3,6 @@ using System.Collections.Generic;
 
 namespace CarApp
 {
-    // Enum til brændstoftype – giver faste værdier og gør det nemt at bruge i koden
-    public enum FuelType
-    {
-        Benzin,
-        Diesel,
-        Elektrisk,
-        Hybrid
-    }
-
-    // Car-klassen repræsenterer en bil og indeholder dens køreture
-    class Car
-    {
-        public string Brand { get; private set; } // Bilens mærke
-        public string Model { get; private set; } // Bilens model
-        public int Year { get; private set; } // Bilens årgang
-        public FuelType Fuel { get; private set; } // Bilens brændstoftype
-        public double Odometer { get; private set; } // Kilometerstand
-        public double KmPerLiter { get; private set; } // Brændstofeffektivitet (km pr. liter)
-        public List<Trip> Trips { get; private set; } // Liste over alle registrerede ture
-        private bool isEngineOn; // Angiver om motoren er tændt eller slukket
-
-        // Konstruktør
-
-        public Car(string brand, string model, int year, FuelType fuel, double odometer, double kmPerLiter)
-        {
-            Brand = brand;
-            Model = model;
-            Year = year;
-            Fuel = fuel;
-            Odometer = odometer;
-            KmPerLiter = kmPerLiter;
-            isEngineOn = false;
-            Trips = new List<Trip>();
-        }
-
-        private void UpdateOdometer(double distance)
-        {
-            Odometer += distance;
-        }
-
-        public void Drive(double distance)
-        {
-            if (distance < 0)
-            {
-                Console.WriteLine("Fejl: Du kan ikke køre en negativ distance.");
-                return;
-            }
-
-            if (isEngineOn)
-            {
-                UpdateOdometer(distance);
-                Console.WriteLine($"Bilen har kørt {distance} km. Ny odometer: {Odometer}");
-            }
-            else
-            {
-                Console.WriteLine("Motoren er slukket! Tænd den først.");
-            }
-        }
-
-        public bool IsPalindrome()
-        {
-            string odometerAsString = Odometer.ToString("F0");
-            int length = odometerAsString.Length;
-            for (int i = 0; i < length / 2; i++)
-            {
-                if (odometerAsString[i] != odometerAsString[length - 1 - i])
-                    return false;
-            }
-            return true;
-        }
-
-        public void PrintCarDetails()
-        {
-            Console.WriteLine($"\nBil detaljer:\nMærke: {Brand}\nModel: {Model}\nÅrgang: {Year}\nBrændstoftype: {Fuel}\nOdometer: {Odometer} km\nKm/l: {KmPerLiter}\n");
-        }
-
-        public void ToggleEngine()
-        {
-            isEngineOn = !isEngineOn;
-            Console.WriteLine(isEngineOn ? "Motoren er nu tændt." : "Motoren er nu slukket.");
-        }
-
-        public void AddTrip(Trip trip)
-        {
-            if (trip != null)
-            {
-                Trips.Add(trip);
-                Odometer += trip.Distance;
-            }
-        }
-    }
-
     class Program
     {
         static List<Car> teamCars = new List<Car>();
@@ -214,8 +122,7 @@ namespace CarApp
                         double tripLiterPrice = double.Parse(Console.ReadLine());
 
                         Trip trip = new Trip(tripDistance, tripDate, tripStartTime, tripEndTime, tripLiterPrice);
-                        selectedCarForTripRegistration.AddTrip(trip);
-                        trip.PrintTripDetails(selectedCarForTripRegistration.KmPerLiter);
+                        selectedCarForTripRegistration.Drive(trip);
                         break;
 
                     case "3":
