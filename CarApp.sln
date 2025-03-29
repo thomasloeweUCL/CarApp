@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp", "CarApp\CarApp.csproj", "{DD61200D-826B-49FB-9184-B53B6F4376F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.Core", "CarApp.Core\CarApp.Core.csproj", "{7E575D21-CC53-4932-9696-7C2385BAB2D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.test", "CarApp.test\CarApp.test.csproj", "{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.Test", "CarApp.Test\CarApp.Test.csproj", "{CEC68B85-1BFC-4967-BBDC-02EA33AFE585}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DD61200D-826B-49FB-9184-B53B6F4376F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD61200D-826B-49FB-9184-B53B6F4376F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD61200D-826B-49FB-9184-B53B6F4376F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD61200D-826B-49FB-9184-B53B6F4376F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E575D21-CC53-4932-9696-7C2385BAB2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E575D21-CC53-4932-9696-7C2385BAB2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E575D21-CC53-4932-9696-7C2385BAB2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E575D21-CC53-4932-9696-7C2385BAB2D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEC68B85-1BFC-4967-BBDC-02EA33AFE585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEC68B85-1BFC-4967-BBDC-02EA33AFE585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEC68B85-1BFC-4967-BBDC-02EA33AFE585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEC68B85-1BFC-4967-BBDC-02EA33AFE585}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

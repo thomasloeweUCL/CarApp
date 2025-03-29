@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarApp\CarApp.csproj" />
+    <ProjectReference Include="..\CarApp.Core\CarApp.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
