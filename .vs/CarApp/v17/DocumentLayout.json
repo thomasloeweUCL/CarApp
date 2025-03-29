@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}|CarApp.test\\CarApp.test.csproj|c:\\users\\thoma\\onedrive - ucl erhvervsakademi og professionsh\u00F8jskole\\kode\\carapp\\carapp.test\\trip.test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}|CarApp.test\\CarApp.test.csproj|solutionrelative:carapp.test\\trip.test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}|CarApp.test\\CarApp.test.csproj|c:\\users\\thoma\\onedrive - ucl erhvervsakademi og professionsh\u00F8jskole\\kode\\carapp\\carapp.test\\car.test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AE384BDF-0F7F-486C-ACFE-806F19D75CDB}|CarApp.test\\CarApp.test.csproj|solutionrelative:carapp.test\\car.test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,6 +35,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Trip.Test.cs",
+              "DocumentMoniker": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\CarApp.test\\Trip.Test.cs",
+              "RelativeDocumentMoniker": "CarApp.test\\Trip.Test.cs",
+              "ToolTip": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\CarApp.test\\Trip.Test.cs",
+              "RelativeToolTip": "CarApp.test\\Trip.Test.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-29T21:19:31.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Car.Test.cs",
               "DocumentMoniker": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\CarApp.test\\Car.Test.cs",
               "RelativeDocumentMoniker": "CarApp.test\\Car.Test.cs",
@@ -43,7 +60,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Trip.cs",
               "DocumentMoniker": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\CarApp\\Trip.cs",
               "RelativeDocumentMoniker": "CarApp\\Trip.cs",
@@ -55,7 +72,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Car.cs",
               "DocumentMoniker": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\CarApp\\Car.cs",
               "RelativeDocumentMoniker": "CarApp\\Car.cs",
@@ -67,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\CarApp\\Program.cs",
               "RelativeDocumentMoniker": "CarApp\\Program.cs",
