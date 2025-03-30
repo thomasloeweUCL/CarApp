@@ -1,0 +1,15 @@
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\CarApp.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\CarApp.Core.AssemblyInfoInputs.cache
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\CarApp.Core.AssemblyInfo.cs
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\CarApp.Core.csproj.CoreCompileInputs.cache
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\CarApp.Core.sourcelink.json
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\bin\Debug\net8.0\CarApp.Core.exe
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\bin\Debug\net8.0\CarApp.Core.deps.json
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\bin\Debug\net8.0\CarApp.Core.runtimeconfig.json
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\bin\Debug\net8.0\CarApp.Core.dll
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\bin\Debug\net8.0\CarApp.Core.pdb
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\CarApp.Core.dll
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\refint\CarApp.Core.dll
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\CarApp.Core.pdb
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\CarApp.Core.genruntimeconfig.cache
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Core\obj\Debug\net8.0\ref\CarApp.Core.dll

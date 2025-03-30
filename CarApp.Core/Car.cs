@@ -18,8 +18,9 @@ namespace CarApp
         public List<Trip> Trips { get; private set; } // Liste over alle registrerede ture
         private bool isEngineOn; // Angiver om motoren er tændt eller slukket
 
-        // Konstruktør
+        public bool EngineIsRunning => isEngineOn; // Offentlig adgang til motorstatus (kun læsning)
 
+        // Konstruktør
         public Car(string brand, string model, int year, FuelType fuel, double odometer, double kmPerLiter)
         {
             Brand = brand;
@@ -59,6 +60,7 @@ namespace CarApp
             isEngineOn = !isEngineOn;
             Console.WriteLine(isEngineOn ? "Motoren er nu tændt." : "Motoren er nu slukket.");
         }
+
         public void Drive(Trip trip)
         {
             if (!isEngineOn)

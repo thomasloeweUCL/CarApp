@@ -26,7 +26,6 @@ namespace CarApp
             if (distance < 0) throw new ArgumentException("Distance må ikke være negativ");
             if (endTime < startTime) throw new ArgumentException("Sluttid må ikke være før starttid.");
             if (literPrice < 0) throw new ArgumentException("Literpris kan ikke være negativ.");
-
         }
 
         public TimeSpan CalculateDuration()
@@ -44,6 +43,17 @@ namespace CarApp
         public double CalculateTripPrice(double kmPerLiter)
         {
             return CalculateFuelUsed(kmPerLiter) * LiterPrice;
+        }
+
+        // Hjælpemetoder til nem adgang
+        public double GetCost(double kmPerLiter)
+        {
+            return CalculateTripPrice(kmPerLiter);
+        }
+
+        public double GetFuelUsed(double kmPerLiter)
+        {
+            return CalculateFuelUsed(kmPerLiter);
         }
 
         public void PrintTripDetails(double kmPerLiter)
