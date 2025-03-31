@@ -87,5 +87,33 @@ namespace CarApp
             Console.WriteLine($"Pris: {tripCost:F2} kr");
             Console.WriteLine($"Ny kilometertæller: {Odometer} km");
         }
+        public override string ToString()
+        {
+            string tripData = string.Join("|", Trips.Select(t => t.ToString()));
+            return $"{Brand};{Model};{Year};{Fuel};{Odometer};{KmPerLiter};{tripData}";
+        }
+        public static Car FromString(string data)
+        {
+            string[] parts = data.Split(';');
+            string brand = parts[0];
+            string model = parts[1];
+            int year = int.Parse(parts[2]);
+            FuelType fuel = Enum.Parse<FuelType>(parts[3]);
+            double odometer = double.Parse(parts[4]);
+            double kmPerLiter = double.Parse(parts[5]);
+
+            Car car = new Car(brand, model, year, fuel, odometer, kmPerLiter);
+
+            if (parts.Length > 6 && !string.IsNullOrEmpty(parts[6]))
+            {
+                string[] tripStrings = parts[6].Split('|');
+                foreach (var tripStr in tripStrings)
+                {
+                    car.Trips.Add(Trip.FromString(tripStr));
+                }
+            }
+
+            return car;
+        }
     }
 }

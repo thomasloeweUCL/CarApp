@@ -27,6 +27,23 @@ namespace CarApp
             if (endTime < startTime) throw new ArgumentException("Sluttid må ikke være før starttid.");
             if (literPrice < 0) throw new ArgumentException("Literpris kan ikke være negativ.");
         }
+        public override string ToString()
+        {
+            return $"{Distance};{TripDate:O};{StartTime:O};{EndTime:O};{LiterPrice}";
+        }
+
+        public static Trip FromString(string data)
+        {
+            string[] parts = data.Split(';');
+
+            double distance = double.Parse(parts[0]);
+            DateTime tripDate = DateTime.Parse(parts[1]);
+            DateTime startTime = DateTime.Parse(parts[2]);
+            DateTime endTime = DateTime.Parse(parts[3]);
+            double literPrice = double.Parse(parts[4]);
+
+            return new Trip(distance, tripDate, startTime, endTime, literPrice);
+        }
 
         public TimeSpan CalculateDuration()
         {

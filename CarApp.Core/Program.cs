@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CarApp
 {
@@ -24,8 +25,10 @@ namespace CarApp
                 Console.WriteLine("7. Tilføj bil til ejer");
                 Console.WriteLine("8. Vis ture for ejer");
                 Console.WriteLine("9. Vis biler for ejer");
-                Console.WriteLine("10. Afslut");
-                Console.Write("Vælg en mulighed (0-10): ");
+                Console.WriteLine("10. Gem alle biler til fil");
+                Console.WriteLine("11. Indlæs biler fra fil");
+                Console.WriteLine("12. Afslut");
+                Console.Write("Vælg en mulighed (0-12): ");
 
                 if (!int.TryParse(Console.ReadLine(), out int choice))
                 {
@@ -46,7 +49,19 @@ namespace CarApp
                     case 7: RunWithPause(AssignCarToOwner); break;
                     case 8: RunWithPause(ShowOwnerTrips); break;
                     case 9: RunWithPause(ShowOwnerCars); break;
-                    case 10: return;
+
+                    case 10: RunWithPause(() => DataHandler.SaveCars(teamCars)); break;
+
+                    case 11:
+                        RunWithPause(() =>
+                        {
+                            var loadedCars = DataHandler.LoadCars();
+                            teamCars.AddRange(loadedCars);
+                            Console.WriteLine($"{loadedCars.Count} bil(er) er indlæst og tilføjet.");
+                        }); break;
+
+                    case 12: return;
+
                     default:
                         Console.WriteLine("Ugyldigt valg. Tryk på en tast for at fortsætte...");
                         Console.ReadKey();
