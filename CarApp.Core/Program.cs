@@ -65,8 +65,6 @@ namespace CarApp
 
         static void AddNewCar()
         {
-            Console.Clear();
-
             Console.Write("Mærke: ");
             string brand = Console.ReadLine();
 
@@ -96,8 +94,6 @@ namespace CarApp
             teamCars.Add(newCar);
 
             Console.WriteLine("Bil tilføjet.");
-            Console.WriteLine("\nTryk på en tast for at vende tilbage til menuen...");
-            Console.ReadKey();
         }
 
         static void RegisterTrip()
