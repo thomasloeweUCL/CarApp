@@ -12,78 +12,61 @@ namespace CarApp
         {
             while (true)
             {
-                string[] menuOptions = {
-                    "Tilføj ny bil",
-                    "Registrer køretur",
-                    "Vis ture for bil",
-                    "Start motor",
-                    "Stop motor",
-                    "Vis alle biler",
-                    "Opret ejer",
-                    "Tilføj bil til ejer",
-                    "Vis ture for ejer",
-                    "Vis biler for ejer",
-                    "Afslut"
-                };
+                Console.Clear();
+                Console.WriteLine("=== Hovedmenu ===");
+                Console.WriteLine("0. Tilføj ny bil");
+                Console.WriteLine("1. Registrer køretur");
+                Console.WriteLine("2. Vis ture for bil");
+                Console.WriteLine("3. Start motor");
+                Console.WriteLine("4. Stop motor");
+                Console.WriteLine("5. Vis alle biler");
+                Console.WriteLine("6. Opret ejer");
+                Console.WriteLine("7. Tilføj bil til ejer");
+                Console.WriteLine("8. Vis ture for ejer");
+                Console.WriteLine("9. Vis biler for ejer");
+                Console.WriteLine("10. Afslut");
+                Console.Write("Vælg en mulighed (0-10): ");
 
-                int choice = ShowMenu(menuOptions);
+                if (!int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    Console.WriteLine("Ugyldigt input. Tryk på en tast for at fortsætte...");
+                    Console.ReadKey();
+                    continue;
+                }
 
                 switch (choice)
                 {
-                    case 0: AddNewCar(); break;
-                    case 1: RegisterTrip(); break;
-                    case 2: ShowTrips(); break;
-                    case 3: StartEngine(); break;
-                    case 4: StopEngine(); break;
-                    case 5: ShowAllCars(); break;
-                    case 6: AddNewOwner(); break;
-                    case 7: AssignCarToOwner(); break;
-                    case 8: ShowOwnerTrips(); break;
-                    case 9: ShowOwnerCars(); break;
+                    case 0: RunWithPause(AddNewCar); break;
+                    case 1: RunWithPause(RegisterTrip); break;
+                    case 2: RunWithPause(ShowTrips); break;
+                    case 3: RunWithPause(StartEngine); break;
+                    case 4: RunWithPause(StopEngine); break;
+                    case 5: RunWithPause(ShowAllCars); break;
+                    case 6: RunWithPause(AddNewOwner); break;
+                    case 7: RunWithPause(AssignCarToOwner); break;
+                    case 8: RunWithPause(ShowOwnerTrips); break;
+                    case 9: RunWithPause(ShowOwnerCars); break;
                     case 10: return;
+                    default:
+                        Console.WriteLine("Ugyldigt valg. Tryk på en tast for at fortsætte...");
+                        Console.ReadKey();
+                        break;
                 }
-
-                Console.WriteLine("\nTryk på en tast for at fortsætte...");
-                Console.ReadKey();
             }
         }
-
-        static int ShowMenu(string[] options)
+        static void RunWithPause(Action action)
         {
-            int selectedIndex = 0;
-            ConsoleKey key;
-
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("--- Menu ---\n");
-
-                for (int i = 0; i < options.Length; i++)
-                {
-                    if (i == selectedIndex)
-                    {
-                        Console.BackgroundColor = ConsoleColor.Gray;
-                        Console.ForegroundColor = ConsoleColor.Black;
-                    }
-
-                    Console.WriteLine(options[i]);
-                    Console.ResetColor();
-                }
-
-                key = Console.ReadKey(true).Key;
-
-                if (key == ConsoleKey.UpArrow)
-                    selectedIndex = (selectedIndex == 0) ? options.Length - 1 : selectedIndex - 1;
-                else if (key == ConsoleKey.DownArrow)
-                    selectedIndex = (selectedIndex + 1) % options.Length;
-
-            } while (key != ConsoleKey.Enter);
-
-            return selectedIndex;
+            Console.Clear();
+            action();
+            Console.WriteLine("\nTryk på en tast for at vende tilbage til menuen...");
+            Console.ReadKey();
         }
+
 
         static void AddNewCar()
         {
+            Console.Clear();
+
             Console.Write("Mærke: ");
             string brand = Console.ReadLine();
 
@@ -113,6 +96,8 @@ namespace CarApp
             teamCars.Add(newCar);
 
             Console.WriteLine("Bil tilføjet.");
+            Console.WriteLine("\nTryk på en tast for at vende tilbage til menuen...");
+            Console.ReadKey();
         }
 
         static void RegisterTrip()

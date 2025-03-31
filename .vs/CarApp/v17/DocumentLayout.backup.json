@@ -38,8 +38,7 @@
               "RelativeToolTip": "CarApp.Core\\Trip.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-30T11:08:01.163Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-30T11:08:01.163Z"
             },
             {
               "$type": "Document",
@@ -49,7 +48,7 @@
               "RelativeDocumentMoniker": "CarApp.Core\\Car.cs",
               "ToolTip": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\CarApp.Core\\Car.cs",
               "RelativeToolTip": "CarApp.Core\\Car.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAswFsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAAAswFcAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-30T10:39:56.878Z",
               "EditorCaption": ""
@@ -62,7 +61,7 @@
               "RelativeDocumentMoniker": "CarApp.Core\\Program.cs",
               "ToolTip": "C:\\Users\\Thoma\\OneDrive - UCL Erhvervsakademi og Professionsh\u00F8jskole\\Kode\\CarApp\\CarApp.Core\\Program.cs",
               "RelativeToolTip": "CarApp.Core\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBcAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-30T10:22:30.502Z",
               "EditorCaption": ""
@@ -77,8 +76,7 @@
               "RelativeToolTip": "CarApp.Core\\CarOwner.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-30T10:06:28.509Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-30T10:06:28.509Z"
             }
           ]
         }
