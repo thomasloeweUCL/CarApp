@@ -90,11 +90,13 @@ namespace CarApp
         public override string ToString()
         {
             string tripData = string.Join("|", Trips.Select(t => t.ToString()));
-            return $"{Brand};{Model};{Year};{Fuel};{Odometer};{KmPerLiter};{tripData}";
+            return $"{Brand};{Model};{Year};{Fuel};{Odometer};{KmPerLiter}#{tripData}";
         }
         public static Car FromString(string data)
         {
-            string[] parts = data.Split(';');
+            string[] sections = data.Split('#');
+            string[] parts = sections[0].Split(';');
+
             string brand = parts[0];
             string model = parts[1];
             int year = int.Parse(parts[2]);
@@ -104,9 +106,9 @@ namespace CarApp
 
             Car car = new Car(brand, model, year, fuel, odometer, kmPerLiter);
 
-            if (parts.Length > 6 && !string.IsNullOrEmpty(parts[6]))
+            if (sections.Length > 1 && !string.IsNullOrEmpty(sections[1]))
             {
-                string[] tripStrings = parts[6].Split('|');
+                string[] tripStrings = sections[1].Split('|');
                 foreach (var tripStr in tripStrings)
                 {
                     car.Trips.Add(Trip.FromString(tripStr));
