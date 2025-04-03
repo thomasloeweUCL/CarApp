@@ -9,7 +9,14 @@ namespace CarApp.Test
     [TestClass]
     public class DataHandlerTests
     {
-        private readonly string testFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\cars.txt");
+        private static string testFilePath;
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            testFilePath = Path.Combine(Path.GetTempPath(), "cars_test.txt");
+            DataHandler.SetFilePath(testFilePath);
+        }
 
         [TestInitialize]
         public void Setup()
@@ -26,6 +33,8 @@ namespace CarApp.Test
         {
             // Arrange
             var car = new Car("Toyota", "Corolla", 2020, FuelType.Benzin, 10000.0, 18.5);
+            car.Owner = new CarOwner("TestEjer");
+
             var trip = new Trip(
                 120.0,
                 DateTime.Today,

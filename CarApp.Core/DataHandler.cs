@@ -6,11 +6,18 @@ namespace CarApp
 {
     public class DataHandler
     {
-        private static readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\cars.txt");
+        // Læser cars.txt fra mappen "Data"
+        private static readonly string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data");
+        private static string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "cars.txt");
 
         // Gemmer alle biler og deres ture i én fil
         public static void SaveCars(List<Car> cars)
         {
+            // Tjek om mappen findes, ellers oprettes ny mappe
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
             using (StreamWriter writer = new StreamWriter(filePath))
             {
                 foreach (var car in cars)
@@ -24,25 +31,46 @@ namespace CarApp
         // Indlæser alle biler og deres ture fra én fil
         public static List<Car> LoadCars()
         {
-            List<Car> cars = new List<Car>();
+            var cars = new List<Car>();
 
             if (!File.Exists(filePath))
             {
                 Console.WriteLine("Filen findes ikke.");
-                return cars;
+                return cars; // tom liste
             }
 
-            using (StreamReader reader = new StreamReader(filePath))
+            Car currentCar = null;
+            CarOwner currentOwner = null;
+            var owners = new Dictionary<string, CarOwner>();
+
+            foreach (var line in File.ReadAllLines(filePath))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                if (line.StartsWith("# Owner:"))
                 {
-                    cars.Add(Car.FromString(line));
+                    var name = line.Replace("# Owner:", "").Trim();
+                    if (!owners.ContainsKey(name))
+                        owners[name] = new CarOwner(name);
+                    currentOwner = owners[name];
+                }
+                else if (line.StartsWith("# Car:") && currentOwner != null)
+                {
+                    currentCar = Car.FromFormattedString(line, currentOwner);
+                    cars.Add(currentCar);
+                }
+                else if (line.StartsWith("Trip:") && currentCar != null)
+                {
+                    var trip = Trip.FromFormattedString(line);
+                    currentCar.Trips.Add(trip);
                 }
             }
 
-            Console.WriteLine("Alle biler er indlæst fra fil.");
+            Console.WriteLine("Alle biler og ejere er indlæst fra fil.");
             return cars;
         }
+        public static void SetFilePath(string path)
+        {
+            filePath = path;
+        }
+
     }
 }

@@ -27,24 +27,28 @@ namespace CarApp
             if (endTime < startTime) throw new ArgumentException("Sluttid må ikke være før starttid.");
             if (literPrice < 0) throw new ArgumentException("Literpris kan ikke være negativ.");
         }
-        public override string ToString()
+        public string ToFormattedString()
         {
-            return $"{Distance};{TripDate:O};{StartTime:O};{EndTime:O};{LiterPrice}";
+            return $"Trip: {Distance}, {TripDate:dd-MM-yyyy}, {StartTime:HH:mm}, {EndTime:HH:mm}";
         }
 
-        public static Trip FromString(string data)
+        public static Trip FromFormattedString(string line)
         {
-            string[] parts = data.Split(';');
+            var data = line.Replace("Trip: ", "").Split(',');
 
-            double distance = double.Parse(parts[0]);
-            DateTime tripDate = DateTime.Parse(parts[1]);
-            DateTime startTime = DateTime.Parse(parts[2]);
-            DateTime endTime = DateTime.Parse(parts[3]);
-            double literPrice = double.Parse(parts[4]);
+            double distance = double.Parse(data[0].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+            DateTime date = DateTime.ParseExact(data[1].Trim(), "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime start = DateTime.ParseExact(data[2].Trim(), "HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact(data[3].Trim(), "HH:mm", System.Globalization.CultureInfo.InvariantCulture);
 
-            return new Trip(distance, tripDate, startTime, endTime, literPrice);
+            // Kombinér dato og tidspunkt
+            DateTime startTime = new DateTime(date.Year, date.Month, date.Day, start.Hour, start.Minute, 0);
+            DateTime endTime = new DateTime(date.Year, date.Month, date.Day, end.Hour, end.Minute, 0);
+
+            double literPrice = 14.0; // midlertidig fast værdi – tilpas hvis nødvendigt
+
+            return new Trip(distance, date, startTime, endTime, literPrice);
         }
-
         public TimeSpan CalculateDuration()
         {
             return EndTime - StartTime;

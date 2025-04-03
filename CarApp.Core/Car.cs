@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace CarApp
         public double Odometer { get; private set; } // Kilometerstand
         public double KmPerLiter { get; private set; } // Brændstofeffektivitet (km pr. liter)
         public List<Trip> Trips { get; private set; } // Liste over alle registrerede ture
+        public CarOwner Owner { get; set; } // Reference til ejeren af bilen
         private bool isEngineOn; // Angiver om motoren er tændt eller slukket
 
         public bool EngineIsRunning => isEngineOn; // Offentlig adgang til motorstatus (kun læsning)
@@ -89,32 +91,25 @@ namespace CarApp
         }
         public override string ToString()
         {
-            string tripData = string.Join("|", Trips.Select(t => t.ToString()));
-            return $"{Brand};{Model};{Year};{Fuel};{Odometer};{KmPerLiter}#{tripData}";
+            var builder = new StringBuilder();
+            builder.AppendLine($"# Owner: {Owner.Name}");
+            builder.AppendLine($"# Car: {Brand}, {Model}, {Year}, {Fuel}, {Odometer.ToString(CultureInfo.InvariantCulture)}, {KmPerLiter.ToString(CultureInfo.InvariantCulture)}");
+            foreach (var trip in Trips)
+                builder.AppendLine(trip.ToFormattedString());
+            return builder.ToString();
         }
-        public static Car FromString(string data)
+        public static Car FromFormattedString(string line, CarOwner owner)
         {
-            string[] sections = data.Split('#');
-            string[] parts = sections[0].Split(';');
+            var data = line.Replace("# Car: ", "").Split(',');
+            string brand = data[0].Trim();
+            string model = data[1].Trim();
+            int year = int.Parse(data[2].Trim());
+            FuelType fuel = Enum.Parse<FuelType>(data[3].Trim());
+            double odometer = double.Parse(data[4].Trim(), CultureInfo.InvariantCulture);
+            double kmPerLiter = double.Parse(data[5].Trim(), CultureInfo.InvariantCulture);
 
-            string brand = parts[0];
-            string model = parts[1];
-            int year = int.Parse(parts[2]);
-            FuelType fuel = Enum.Parse<FuelType>(parts[3]);
-            double odometer = double.Parse(parts[4]);
-            double kmPerLiter = double.Parse(parts[5]);
-
-            Car car = new Car(brand, model, year, fuel, odometer, kmPerLiter);
-
-            if (sections.Length > 1 && !string.IsNullOrEmpty(sections[1]))
-            {
-                string[] tripStrings = sections[1].Split('|');
-                foreach (var tripStr in tripStrings)
-                {
-                    car.Trips.Add(Trip.FromString(tripStr));
-                }
-            }
-
+            var car = new Car(brand, model, year, fuel, odometer, kmPerLiter);
+            car.Owner = owner;
             return car;
         }
     }

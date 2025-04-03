@@ -19,10 +19,13 @@ namespace CarApp
             Cars = new List<Car>();
         }
 
-        // Tilføjer en bil til ejerens liste.
+        // Tilføjer en bil til ejerens liste, hvis den ikke allerede findes
         public void AddCar(Car car)
         {
-            Cars.Add(car);
+            if (!Cars.Contains(car))
+            {
+                Cars.Add(car);
+            }
         }
 
         // Viser alle ture for alle ejerens biler.

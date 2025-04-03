@@ -1,0 +1,12 @@
+# Owner: Alice
+# Car: Toyota, Corolla, 2020, Benzin, 15230.5, 18.5
+Trip: 120.5, 12-03-2024, 08:30, 10:15
+Trip: 85.0, 15-03-2024, 14:00, 15:20
+
+# Owner: Alice
+# Car: Nissan, Leaf, 2021, Elektrisk, 8500.0, 19.2
+Trip: 75.0, 16-03-2024, 10:00, 11:00
+
+# Owner: Bob
+# Car: Ford, Focus, 2018, Diesel, 20450.0, 17.2
+Trip: 67.8, 19-03-2024, 11:00, 12:10

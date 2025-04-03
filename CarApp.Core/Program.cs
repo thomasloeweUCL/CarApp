@@ -49,16 +49,26 @@ namespace CarApp
                     case 7: RunWithPause(AssignCarToOwner); break;
                     case 8: RunWithPause(ShowOwnerTrips); break;
                     case 9: RunWithPause(ShowOwnerCars); break;
-
                     case 10: RunWithPause(() => DataHandler.SaveCars(teamCars)); break;
-
                     case 11:
                         RunWithPause(() =>
                         {
                             var loadedCars = DataHandler.LoadCars();
                             teamCars.AddRange(loadedCars);
+
+                            foreach (var car in loadedCars)
+                            {
+                                if (car.Owner != null && !owners.Contains(car.Owner))
+                                {
+                                    owners.Add(car.Owner);
+                                }
+
+                                car.Owner?.AddCar(car);
+                            }
+
                             Console.WriteLine($"{loadedCars.Count} bil(er) er indlæst og tilføjet.");
-                        }); break;
+                        });
+                        break;
 
                     case 12: return;
 
@@ -76,8 +86,6 @@ namespace CarApp
             Console.WriteLine("\nTryk på en tast for at vende tilbage til menuen...");
             Console.ReadKey();
         }
-
-
         static void AddNewCar()
         {
             Console.Write("Mærke: ");
