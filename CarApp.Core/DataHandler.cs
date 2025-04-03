@@ -8,7 +8,7 @@ namespace CarApp
     {
         // Læser cars.txt fra mappen "Data"
         private static readonly string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data");
-        private static string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "cars.txt");
+        private static string filePath;
 
         // Gemmer alle biler og deres ture i én fil
         public static void SaveCars(List<Car> cars)

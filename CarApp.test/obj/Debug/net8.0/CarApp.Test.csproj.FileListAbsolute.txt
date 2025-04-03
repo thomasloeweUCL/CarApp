@@ -259,3 +259,4 @@ C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarAp
 C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Test\obj\Debug\net8.0\CarApp.Test.pdb
 C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Test\obj\Debug\net8.0\CarApp.Test.genruntimeconfig.cache
 C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Test\obj\Debug\net8.0\ref\CarApp.Test.dll
+C:\Users\Thoma\OneDrive - UCL Erhvervsakademi og Professionshøjskole\Kode\CarApp\CarApp.Test\bin\Debug\net8.0\Data\cars.txt

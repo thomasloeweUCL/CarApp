@@ -11,6 +11,10 @@ namespace CarApp
 
         static void Main(string[] args)
         {
+            // Filsti: Går op fra bin/Debug og ind i Data
+            var filePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Data", "cars.txt"));
+            DataHandler.SetFilePath(filePath);
+
             while (true)
             {
                 Console.Clear();
