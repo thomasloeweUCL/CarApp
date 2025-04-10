@@ -15,6 +15,9 @@ namespace CarApp
             var filePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Data", "cars.txt"));
             DataHandler.SetFilePath(filePath);
 
+            // Load data from cars.txt automatically
+            teamCars = DataHandler.LoadCars();
+
             while (true)
             {
                 Console.Clear();
@@ -29,9 +32,7 @@ namespace CarApp
                 Console.WriteLine("7. Tilføj bil til ejer");
                 Console.WriteLine("8. Vis ture for ejer");
                 Console.WriteLine("9. Vis biler for ejer");
-                Console.WriteLine("10. Gem alle biler til fil");
-                Console.WriteLine("11. Indlæs biler fra fil");
-                Console.WriteLine("12. Afslut");
+                Console.WriteLine("10. Afslut");
                 Console.Write("Vælg en mulighed (0-12): ");
 
                 if (!int.TryParse(Console.ReadLine(), out int choice))
@@ -53,28 +54,7 @@ namespace CarApp
                     case 7: RunWithPause(AssignCarToOwner); break;
                     case 8: RunWithPause(ShowOwnerTrips); break;
                     case 9: RunWithPause(ShowOwnerCars); break;
-                    case 10: RunWithPause(() => DataHandler.SaveCars(teamCars)); break;
-                    case 11:
-                        RunWithPause(() =>
-                        {
-                            var loadedCars = DataHandler.LoadCars();
-                            teamCars.AddRange(loadedCars);
-
-                            foreach (var car in loadedCars)
-                            {
-                                if (car.Owner != null && !owners.Contains(car.Owner))
-                                {
-                                    owners.Add(car.Owner);
-                                }
-
-                                car.Owner?.AddCar(car);
-                            }
-
-                            Console.WriteLine($"{loadedCars.Count} bil(er) er indlæst og tilføjet.");
-                        });
-                        break;
-
-                    case 12: return;
+                    case 10: return;
 
                     default:
                         Console.WriteLine("Ugyldigt valg. Tryk på en tast for at fortsætte...");
@@ -90,6 +70,7 @@ namespace CarApp
             Console.WriteLine("\nTryk på en tast for at vende tilbage til menuen...");
             Console.ReadKey();
         }
+
         static void AddNewCar()
         {
             Console.Write("Mærke: ");
@@ -120,6 +101,8 @@ namespace CarApp
             Car newCar = new Car(brand, model, year, fuel, odometer, kmPerLiter);
             teamCars.Add(newCar);
 
+            DataHandler.SaveCars(teamCars);
+
             Console.WriteLine("Bil tilføjet.");
         }
 
@@ -148,6 +131,8 @@ namespace CarApp
             Trip trip = new Trip(distance, now.Date, now, now.AddMinutes(30), fuelPrice);
 
             car.Drive(trip);
+
+            DataHandler.SaveCars(teamCars);
         }
 
         static void ShowTrips()
@@ -157,7 +142,7 @@ namespace CarApp
 
             foreach (Trip trip in car.Trips)
             {
-                trip.PrintTripDetails(car.KmPerLiter);
+                trip.PrintTripDetails(car.KmPerLiter, trip.FuelPrice);
             }
         }
 
@@ -182,22 +167,6 @@ namespace CarApp
             }
         }
 
-        static Car SelectCar()
-        {
-            if (teamCars.Count == 0) return null;
-
-            Console.WriteLine("Vælg bil:");
-            for (int i = 0; i < teamCars.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {teamCars[i].Brand} {teamCars[i].Model}");
-            }
-
-            if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= teamCars.Count)
-                return teamCars[index - 1];
-
-            return null;
-        }
-
         static void AddNewOwner()
         {
             Console.Write("Ejerens navn: ");
@@ -220,7 +189,26 @@ namespace CarApp
             if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= owners.Count)
             {
                 owners[index - 1].AddCar(car);
+
+                DataHandler.SaveCars(teamCars);
+
                 Console.WriteLine("Bil tilføjet til ejer.");
+            }
+        }
+
+        static void ShowOwnerTrips()
+        {
+            Console.WriteLine("Vælg ejer:");
+            for (int i = 0; i < owners.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {owners[i].Name}");
+            }
+
+            if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= owners.Count)
+            {
+                CarOwner owner = owners[index - 1];
+                owner.PrintAllTrips();
+                Console.WriteLine($"Samlet pris: {owner.GetTotalCost():N2} kr");
             }
         }
 
@@ -250,20 +238,20 @@ namespace CarApp
             }
         }
 
-        static void ShowOwnerTrips()
+        static Car SelectCar()
         {
-            Console.WriteLine("Vælg ejer:");
-            for (int i = 0; i < owners.Count; i++)
+            if (teamCars.Count == 0) return null;
+
+            Console.WriteLine("Vælg bil:");
+            for (int i = 0; i < teamCars.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {owners[i].Name}");
+                Console.WriteLine($"{i + 1}. {teamCars[i].Brand} {teamCars[i].Model}");
             }
 
-            if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= owners.Count)
-            {
-                CarOwner owner = owners[index - 1];
-                owner.PrintAllTrips();
-                Console.WriteLine($"Samlet pris: {owner.GetTotalCost():N2} kr");
-            }
+            if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= teamCars.Count)
+                return teamCars[index - 1];
+
+            return null;
         }
     }
 }

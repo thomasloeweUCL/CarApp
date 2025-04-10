@@ -52,9 +52,9 @@ namespace CarApp
                         owners[name] = new CarOwner(name);
                     currentOwner = owners[name];
                 }
-                else if (line.StartsWith("# Car:") && currentOwner != null)
+                else if (line.StartsWith("# Car:"))
                 {
-                    currentCar = Car.FromFormattedString(line, currentOwner);
+                    currentCar = Car.FromFormattedString(line, currentOwner); // currentOwner kan være null
                     cars.Add(currentCar);
                 }
                 else if (line.StartsWith("Trip:") && currentCar != null)

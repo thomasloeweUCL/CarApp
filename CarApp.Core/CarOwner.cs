@@ -25,6 +25,7 @@ namespace CarApp
             if (!Cars.Contains(car))
             {
                 Cars.Add(car);
+                car.Owner = this; // ← vigtig linje!
             }
         }
 
@@ -38,7 +39,7 @@ namespace CarApp
 
                 foreach (var trip in car.Trips)
                 {
-                    Console.WriteLine($" - {trip.TripDate.ToShortDateString()}, {trip.Distance} km, Pris: {trip.GetCost(car.KmPerLiter):N2} kr");
+                    Console.WriteLine($" - {trip.TripDate.ToShortDateString()}, {trip.Distance} km, Pris: {trip.GetCost(car.KmPerLiter, trip.FuelPrice):N2} kr");
                 }
             }
         }
@@ -51,7 +52,7 @@ namespace CarApp
             {
                 foreach (var trip in car.Trips)
                 {
-                    total += trip.CalculateTripPrice(car.KmPerLiter);
+                    total += trip.CalculateTripPrice(car.KmPerLiter, trip.FuelPrice);
                 }
             }
             return total;

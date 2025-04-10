@@ -35,11 +35,6 @@ namespace CarApp
             Trips = new List<Trip>();
         }
 
-        private void UpdateOdometer(double distance)
-        {
-            Odometer += distance;
-        }
-
         public bool IsPalindrome()
         {
             string odometerAsString = Odometer.ToString("F0");
@@ -78,7 +73,7 @@ namespace CarApp
             }
 
             double fuelUsed = trip.Distance / KmPerLiter;
-            double tripCost = fuelUsed * trip.LiterPrice;
+            double tripCost = fuelUsed * trip.FuelPrice;
 
             Trips.Add(trip); // Registrer turen
             Odometer += trip.Distance; // Opdater odometer
@@ -92,15 +87,20 @@ namespace CarApp
         public override string ToString()
         {
             var builder = new StringBuilder();
-            builder.AppendLine($"# Owner: {Owner.Name}");
-            builder.AppendLine($"# Car: {Brand}, {Model}, {Year}, {Fuel}, {Odometer.ToString(CultureInfo.InvariantCulture)}, {KmPerLiter.ToString(CultureInfo.InvariantCulture)}");
+
+            if (Owner != null)
+                builder.AppendLine($"# Owner: {Owner.Name}");
+
+            builder.AppendLine($"# Car: {Brand}; {Model}; {Year}; {Fuel}; {Odometer.ToString(CultureInfo.InvariantCulture)}; {KmPerLiter.ToString(CultureInfo.InvariantCulture)}");
+
             foreach (var trip in Trips)
                 builder.AppendLine(trip.ToFormattedString());
+
             return builder.ToString();
         }
         public static Car FromFormattedString(string line, CarOwner owner)
         {
-            var data = line.Replace("# Car: ", "").Split(',');
+            var data = line.Replace("# Car: ", "").Split(';');
             string brand = data[0].Trim();
             string model = data[1].Trim();
             int year = int.Parse(data[2].Trim());
