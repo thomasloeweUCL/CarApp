@@ -16,7 +16,7 @@ namespace CarApp
             DataHandler.SetFilePath(filePath);
 
             // Load data from cars.txt automatically
-            teamCars = DataHandler.LoadCars();
+            teamCars = DataHandler.LoadCars(out owners);
 
             while (true)
             {
@@ -101,7 +101,7 @@ namespace CarApp
             Car newCar = new Car(brand, model, year, fuel, odometer, kmPerLiter);
             teamCars.Add(newCar);
 
-            DataHandler.SaveCars(teamCars);
+            DataHandler.SaveAll(teamCars, owners);
 
             Console.WriteLine("Bil tilføjet.");
         }
@@ -132,7 +132,7 @@ namespace CarApp
 
             car.Drive(trip);
 
-            DataHandler.SaveCars(teamCars);
+            DataHandler.SaveAll(teamCars, owners);
         }
 
         static void ShowTrips()
@@ -190,7 +190,7 @@ namespace CarApp
             {
                 owners[index - 1].AddCar(car);
 
-                DataHandler.SaveCars(teamCars);
+                DataHandler.SaveAll(teamCars, owners);
 
                 Console.WriteLine("Bil tilføjet til ejer.");
             }

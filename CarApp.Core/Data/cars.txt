@@ -1,3 +1,12 @@
+# Car: Opel; Corsa; 1954; Benzin; 420; 10
+Trip: 220; 21-04-2025; 21-04-2025 17:08; 21-04-2025 17:38; 14.59
+Trip: 100; 21-04-2025; 21-04-2025 21:53; 21-04-2025 22:23; 0.00
 # Owner: Egon
-# Car: Toyota; Corolla; 2020; Benzin; 1100; 17
-
+# Car: Toyota; Corolla; 2020; Benzin; 1220; 17
+Trip: 120; 21-04-2025; 21-04-2025 13:54; 21-04-2025 14:24; 12.59
+# Car: Polestar; 4; 2025; Elektrisk; 100; 19
+Trip: 100; 21-04-2025; 21-04-2025 16:38; 21-04-2025 17:08; 19.49
+# Owner: Kaj
+# Car: BMW; i3; 2019; Benzin; 2000; 17
+# Car: Opel; Escort; 1987; Benzin; 2000000; 12
+# Car: Audi; A5; 2020; Benzin; 1000; 15

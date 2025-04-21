@@ -1,56 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace CarApp
 {
     public class DataHandler
     {
-        // Læser cars.txt fra mappen "Data"
+        // Sti til datamappen
         private static readonly string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data");
         private static string filePath;
 
-        // Gemmer alle biler og deres ture i én fil
-        public static void SaveCars(List<Car> cars)
+        // Sætter den interne sti til datafilen
+        public static void SetFilePath(string path)
         {
-            // Tjek om mappen findes, ellers oprettes ny mappe
+            filePath = path;
+        }
+
+        // Gemmer alle ejere, deres biler og ture i tekstfilen
+        public static void SaveCars(List<CarOwner> owners)
+        {
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
+
             using (StreamWriter writer = new StreamWriter(filePath))
             {
-                foreach (var car in cars)
+                foreach (var owner in owners)
                 {
-                    writer.WriteLine(car.ToString());
+                    writer.WriteLine($"# Owner: {owner.Name}");
+
+                    foreach (var car in owner.Cars)
+                    {
+                        writer.WriteLine(car.ToFormattedString());
+
+                        foreach (var trip in car.Trips)
+                        {
+                            writer.WriteLine(trip.ToFormattedString());
+                        }
+                    }
                 }
             }
-            Console.WriteLine("Alle biler er gemt i filen.");
+
+            Console.WriteLine("Alle biler og ejere er gemt i filen.");
         }
 
-        // Indlæser alle biler og deres ture fra én fil
-        public static List<Car> LoadCars()
+        // Indlæser biler og ejere fra tekstfilen. Returnerer biler og sætter ejere via out-parameter
+        public static List<Car> LoadCars(out List<CarOwner> owners)
         {
             var cars = new List<Car>();
+            var ownerDict = new Dictionary<string, CarOwner>();
 
             if (!File.Exists(filePath))
             {
                 Console.WriteLine("Filen findes ikke.");
-                return cars; // tom liste
+                owners = new List<CarOwner>();
+                return cars;
             }
 
             Car currentCar = null;
             CarOwner currentOwner = null;
-            var owners = new Dictionary<string, CarOwner>();
 
             foreach (var line in File.ReadAllLines(filePath))
             {
                 if (line.StartsWith("# Owner:"))
                 {
                     var name = line.Replace("# Owner:", "").Trim();
-                    if (!owners.ContainsKey(name))
-                        owners[name] = new CarOwner(name);
-                    currentOwner = owners[name];
+                    if (!ownerDict.ContainsKey(name))
+                        ownerDict[name] = new CarOwner(name);
+
+                    currentOwner = ownerDict[name];
                 }
                 else if (line.StartsWith("# Car:"))
                 {
@@ -64,13 +84,56 @@ namespace CarApp
                 }
             }
 
+            owners = new List<CarOwner>(ownerDict.Values);
+
             Console.WriteLine("Alle biler og ejere er indlæst fra fil.");
             return cars;
         }
-        public static void SetFilePath(string path)
+        public static void SaveAll(List<Car> allCars, List<CarOwner> owners)
         {
-            filePath = path;
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            using StreamWriter writer = new StreamWriter(filePath)
+            {
+                AutoFlush = true
+            };
+
+            // Først: Gem alle biler uden ejer
+            foreach (var car in allCars)
+            {
+                if (car.Owner == null)
+                {
+                    writer.WriteLine(car.ToFormattedString());
+
+                    foreach (var trip in car.Trips)
+                    {
+                        writer.WriteLine(trip.ToFormattedString());
+                    }
+                }
+            }
+
+            // Dernæst: Gem ejere og deres biler
+            foreach (var owner in owners)
+            {
+                writer.WriteLine($"# Owner: {owner.Name}");
+
+                foreach (var car in owner.Cars)
+                {
+                    writer.WriteLine(car.ToFormattedString());
+
+                    foreach (var trip in car.Trips)
+                    {
+                        writer.WriteLine(trip.ToFormattedString());
+                    }
+                }
+            }
+
+            Console.WriteLine("Alle biler (med og uden ejere) samt ture er gemt.");
         }
 
     }
+
 }

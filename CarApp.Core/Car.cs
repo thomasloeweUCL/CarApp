@@ -98,18 +98,34 @@ namespace CarApp
 
             return builder.ToString();
         }
+        public string ToFormattedString()
+        {
+            return $"# Car: {Brand}; {Model}; {Year}; {Fuel}; {Odometer}; {KmPerLiter}";
+        }
+
         public static Car FromFormattedString(string line, CarOwner owner)
         {
-            var data = line.Replace("# Car: ", "").Split(';');
-            string brand = data[0].Trim();
-            string model = data[1].Trim();
-            int year = int.Parse(data[2].Trim());
-            FuelType fuel = Enum.Parse<FuelType>(data[3].Trim());
-            double odometer = double.Parse(data[4].Trim(), CultureInfo.InvariantCulture);
-            double kmPerLiter = double.Parse(data[5].Trim(), CultureInfo.InvariantCulture);
+            // Eksempel: "# Car: Toyota; Corolla; 2020; Benzin; 1220; 17"
+            var parts = line.Substring(7).Split(';');
+            string brand = parts[0].Trim();
+            string model = parts[1].Trim();
+            int year = int.Parse(parts[2].Trim());
+            string fuel = parts[3].Trim();
+            int odometer = int.Parse(parts[4].Trim());
+            double kmPerLiter = double.Parse(parts[5].Trim());
 
-            var car = new Car(brand, model, year, fuel, odometer, kmPerLiter);
-            car.Owner = owner;
+            // Konverter string til FuelType enum
+            FuelType fuelType = Enum.Parse<FuelType>(fuel);
+
+            // Kald korrekt konstruktør
+            Car car = new Car(brand, model, year, fuelType, odometer, kmPerLiter);
+
+            if (owner != null)
+            {
+                owner.AddCar(car);
+                car.Owner = owner;
+            }
+
             return car;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,24 +26,23 @@ namespace CarApp
         }
         public string ToFormattedString()
         {
-            return $"Trip: {Distance}; {TripDate:dd-MM-yyyy}; {StartTime:HH:mm}; {EndTime:HH:mm}; {FuelPrice}";
+            // Format: Trip: Distance; dd-MM-yyyy; StartTime; EndTime; FuelPrice
+            return $"Trip: {Distance}; {TripDate:dd-MM-yyyy}; {StartTime:dd-MM-yyyy HH:mm}; {EndTime:dd-MM-yyyy HH:mm}; {FuelPrice.ToString("F2", CultureInfo.InvariantCulture)}";
         }
 
         public static Trip FromFormattedString(string line)
         {
-            var data = line.Replace("Trip: ", "").Split(';');
+            var parts = line.Substring(6).Split(';');
 
-            double distance = double.Parse(data[0].Trim(), System.Globalization.CultureInfo.InvariantCulture);
-            DateTime date = DateTime.ParseExact(data[1].Trim(), "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
-            DateTime start = DateTime.ParseExact(data[2].Trim(), "HH:mm", System.Globalization.CultureInfo.InvariantCulture);
-            DateTime end = DateTime.ParseExact(data[3].Trim(), "HH:mm", System.Globalization.CultureInfo.InvariantCulture);
-            double fuelPrice = double.Parse(data[4].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+            double distance = double.Parse(parts[0].Trim());
+            DateTime tripDate = DateTime.ParseExact(parts[1].Trim(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-            // Kombinér dato og tidspunkt
-            DateTime startTime = new DateTime(date.Year, date.Month, date.Day, start.Hour, start.Minute, 0);
-            DateTime endTime = new DateTime(date.Year, date.Month, date.Day, end.Hour, end.Minute, 0);
+            DateTime start = DateTime.ParseExact(parts[2].Trim(), "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact(parts[3].Trim(), "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
 
-            return new Trip(distance, date, startTime, endTime, fuelPrice);
+            double fuelPrice = double.Parse(parts[4].Trim().Replace(",", "."), CultureInfo.InvariantCulture);
+
+            return new Trip(distance, tripDate, start, end, fuelPrice);
         }
         public TimeSpan CalculateDuration()
         {
