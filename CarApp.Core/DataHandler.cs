@@ -130,8 +130,6 @@ namespace CarApp
                     }
                 }
             }
-
-            Console.WriteLine("Alle biler (med og uden ejere) samt ture er gemt.");
         }
 
     }
